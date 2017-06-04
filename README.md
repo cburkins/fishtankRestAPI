@@ -1,12 +1,12 @@
 # fisktankRestAPI
 
 ## Setting up the installation
+1. apt-get install python-pip
 1. pip install virtualenv
+1. git clone fishtankRestAPI
+1. cd fishtankRestAPI
 1. virtualenv flask
 1. flask/bin/pip install flask
-
-## Getting the code
-1. git clone fishtankRestAPI
 
 ## Testing the installation
 1. ./fishtankRestAPI.py
