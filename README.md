@@ -10,5 +10,5 @@
 
 ## Testing the installation
 1. ./fishtankRestAPI.py
-1.  curl -i http://192.168.1.109:5000/fishtank/temp
+1.  curl -i http://127.0.0.1:5000/fishtank/temp
 
