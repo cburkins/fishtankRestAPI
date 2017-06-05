@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-def getFishTankTemp (tempProbeSerialNum):
+def getFishTankTemp (ProbeSerialNum):
 
     # Output probably looks like this:
     # b1 01 4b 46 7f ff 0f 10 8d : crc=8d YES
@@ -16,7 +16,7 @@ def getFishTankTemp (tempProbeSerialNum):
     # cat dev-file | grep 't=' | awk -F= '{printf ("(%d/1000*1.8)+32\n", $2)}' | bc -l | awk '{printf ("%.2f\n", $1)}'
 
     tempF = float(0.0);
-    ProbeSerialNum='28-00000463f2a4'
+#    ProbeSerialNum='28-00000463f2a4'
     deviceFile = "/sys/bus/w1/devices/%s/w1_slave" % ProbeSerialNum;
     with open(deviceFile, 'r') as content_file:
         for line in content_file:
@@ -30,11 +30,22 @@ def getFishTankTemp (tempProbeSerialNum):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Endpoint for Tank Water Temp
 
 @app.route('/fishtank/temp', methods=['GET'])
 def return_fishtank_temp():
     tempF = getFishTankTemp('28-00000463f2a4');
     return jsonify({'tankWaterTemp': tempF});
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Endpoint for Room Temp
+
+@app.route('/room/temp', methods=['GET'])
+def return_room_temp():
+    tempF = getFishTankTemp('28-000004630fef');
+    return jsonify({'roomTemp': tempF});
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -54,9 +65,10 @@ def get_task(task_id):
     return jsonify({'task': task[0]})
 
 
-
-
 if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run(host="0.0.0.0", debug=False)
+    app.run(host="0.0.0.0", port=5034, debug=False)
 
+
+# ===============================================================================================
+# ==========================   End   ============================================================
+# ===============================================================================================
